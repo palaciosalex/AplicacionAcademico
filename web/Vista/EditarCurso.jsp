@@ -37,13 +37,13 @@
                         <div class="form-group">
                             <label for="2" class="col-sm-2 control-label">Horas</label>
                             <div class="col-md-4">
-                              <input class="form-control" type="text" name="f_horas" value="<% out.println(curso.getHoras()); %>" maxlength="50"/>
+                              <input class="form-control" type="text" name="f_horas" value="<% out.println(curso.getHoras()); %>" maxlength="1"/>
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="3" class="col-sm-2 control-label">Creditos</label>
                             <div class="col-md-3">
-                              <input class="form-control" type="text" name="f_creditos" value="<% out.println(curso.getCreditos()); %>" maxlength="8"/>
+                              <input class="form-control" type="text" name="f_creditos" value="<% out.println(curso.getCreditos()); %>" maxlength="1"/>
                             </div>
                         </div>                        
                         <div class="form-group">
