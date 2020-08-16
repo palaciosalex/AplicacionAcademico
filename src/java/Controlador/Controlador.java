@@ -5,7 +5,9 @@
  */
 package Controlador;
 
+import Modelo.Curso;
 import Modelo.Estudiante;
+import ModeloDAO.CursoDAO;
 import ModeloDAO.EstudianteDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -27,6 +29,14 @@ public class Controlador extends HttpServlet {
     String editarestudiante = "Vista/EditarEstudiante.jsp";
     Estudiante estudiante = new Estudiante();
     EstudianteDAO estudianteDAO = new EstudianteDAO();
+    
+    
+    //Controlador Curso
+    String listarcurso = "Vista/ListarCurso.jsp";
+    String agregarcurso= "Vista/AgregarCurso.jsp";
+    String editarcurso = "Vista/EditarCurso.jsp";
+    Curso curso = new Curso();
+    CursoDAO cursoDAO = new CursoDAO();
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -113,6 +123,45 @@ public class Controlador extends HttpServlet {
             int s_idestudiante = Integer.valueOf(request.getParameter("f_idestudiante"));
             estudianteDAO.eliminarestudiante(s_idestudiante);
             acceso = listarestudiante;
+            
+            //listadoCurso
+            
+        }else if (s_accion.equalsIgnoreCase("listarcurso")) {
+            acceso = listarcurso;
+        }else if (s_accion.equalsIgnoreCase("agregarcurso01")) {
+            acceso = agregarcurso;
+        }else if (s_accion.equalsIgnoreCase("agregarcurso02")) {
+            String s_nombre = request.getParameter("f_nombre");
+            int s_horas = Integer.valueOf(request.getParameter("f_horas"));
+            int s_creditos = Integer.valueOf(request.getParameter("f_creditos"));
+            String s_estado = request.getParameter("f_estado");
+            curso.setNombre(s_nombre);
+            curso.setHoras(s_horas);
+            curso.setCreditos(s_creditos);
+            curso.setEstado(s_estado);
+            cursoDAO.agregarcurso(curso);
+            acceso = listarcurso;
+
+        }else if (s_accion.equalsIgnoreCase("editarcurso01")) {
+        request.setAttribute("f_idcurso", request.getParameter("f_idcurso"));
+        acceso = editarcurso;
+        }else if (s_accion.equalsIgnoreCase("editarcurso02")) {
+            int s_idcurso = Integer.valueOf(request.getParameter("f_idcurso"));            
+            String s_nombre = request.getParameter("f_nombre");
+            int s_horas = Integer.valueOf(request.getParameter("f_horas"));
+            int s_creditos = Integer.valueOf(request.getParameter("f_creditos"));            
+            String s_estado = request.getParameter("f_estado");
+            curso.setIdcurso(s_idcurso);
+            curso.setNombre(s_nombre);
+            curso.setHoras(s_horas);
+            curso.setCreditos(s_creditos);
+            curso.setEstado(s_estado);            
+            cursoDAO.editarcurso(curso);
+            acceso = listarcurso;
+        }else if (s_accion.equalsIgnoreCase("eliminarcurso")) {
+            int s_idcurso = Integer.valueOf(request.getParameter("f_idcurso"));
+            cursoDAO.eliminarcurso(s_idcurso);
+            acceso = listarcurso;
         }
         RequestDispatcher vista = request.getRequestDispatcher(acceso);
         vista.forward(request, response);
