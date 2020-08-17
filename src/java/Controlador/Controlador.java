@@ -5,8 +5,10 @@
  */
 package Controlador;
 
+import Modelo.Carrera;
 import Modelo.Curso;
 import Modelo.Estudiante;
+import ModeloDAO.CarreraDAO;
 import ModeloDAO.CursoDAO;
 import ModeloDAO.EstudianteDAO;
 import java.io.IOException;
@@ -37,6 +39,13 @@ public class Controlador extends HttpServlet {
     String editarcurso = "Vista/EditarCurso.jsp";
     Curso curso = new Curso();
     CursoDAO cursoDAO = new CursoDAO();
+    
+    //Contralador Carrera
+    String listarcarrera = "Vista/ListarCarrera.jsp";
+    String agregarcarrera= "Vista/AgregarCarrera.jsp";
+    String editarcarrera = "Vista/EditarCarrera.jsp";
+    Carrera carrera = new Carrera();
+    CarreraDAO carreraDAO = new CarreraDAO();
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -162,6 +171,37 @@ public class Controlador extends HttpServlet {
             int s_idcurso = Integer.valueOf(request.getParameter("f_idcurso"));
             cursoDAO.eliminarcurso(s_idcurso);
             acceso = listarcurso;
+            
+            
+            //carrera
+        }else if (s_accion.equalsIgnoreCase("listarcarrera")) {
+            acceso = listarcarrera;
+        }else if (s_accion.equalsIgnoreCase("agregarcarrera01")) {
+            acceso = agregarcarrera;
+        }else if (s_accion.equalsIgnoreCase("agregarcarrera02")) {
+            String s_nombre = request.getParameter("f_nombre");
+            String s_estado = request.getParameter("f_estado");
+            carrera.setNombre(s_nombre);
+            carrera.setEstado(s_estado);
+            carreraDAO.agregarcarrera(carrera);
+            acceso = listarcarrera;
+
+        }else if (s_accion.equalsIgnoreCase("editarcarrera01")) {
+        request.setAttribute("f_idcarrera", request.getParameter("f_idcarrera"));
+        acceso = editarcarrera;
+        }else if (s_accion.equalsIgnoreCase("editarcarrera02")) {
+            int s_idcarrera = Integer.valueOf(request.getParameter("f_idcarrera"));            
+            String s_nombre = request.getParameter("f_nombre");           
+            String s_estado = request.getParameter("f_estado");
+            carrera.setIdcarrera(s_idcarrera);
+            carrera.setNombre(s_nombre);
+            carrera.setEstado(s_estado);            
+            carreraDAO.editarcarrera(carrera);
+            acceso = listarcarrera;
+        }else if (s_accion.equalsIgnoreCase("eliminarcarrera")) {
+            int s_idcarrera = Integer.valueOf(request.getParameter("f_idcarrera"));
+            carreraDAO.eliminarcarrera(s_idcarrera);
+            acceso = listarcarrera;
         }
         RequestDispatcher vista = request.getRequestDispatcher(acceso);
         vista.forward(request, response);
